@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: NowPower API
+
+  # TODO: Update description to point to a product page
+  # if we add one in the future
+  description: |-
+    This is the API specification which allows the [NowPower](https://github.com/theWatchMasters/app) app 
+    to communicate with the backend.
+
+  # TODO: Update the Terms of Service when added
+  # termsOfService: https://thewatchmasters.github.io/support/tos.html
+  contact:
+    name: theWatchMasters
+    # TODO: Update the URL when we add a support page
+    # url: https://thewatchmasters.github.io/support
+    # TODO: Update the email when we get one
+    # email: support@thewatchmasters.com
+    
+  license:
+    name: MIT License
+    url: https://github.com/theWatchMasters/specs/blob/main/LICENSE
+  version: 1.0.0
+
+tags: 
+  - name: auth
+    description: Operations with this tag are related to authentication
+
+paths: 
+  /login:
+    $ref: "./paths/login.yaml"
+  /register:
+    $ref: "./paths/register.yaml"
+  /sso:
+    $ref: "./paths/sso.yaml"
+
+        
+            

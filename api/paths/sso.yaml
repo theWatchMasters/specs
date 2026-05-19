@@ -1,0 +1,71 @@
+post:
+  operationId: login_with_sso
+  tags:
+    - auth
+  summary: Allows login with SSO
+  description: |-
+    The `/sso` endpoint provides an interface for user logins using
+    a SSO-returned JWT. It acts as a verification step for the redirect URI of 
+    the SSO process for both login and registration
+  requestBody:
+    content:
+      # TODO: consider using x-www-form-urlencoded instead?
+      application/json:
+        schema: 
+          $ref: "../schema/requests/SSOCredentials.yaml"
+        examples:
+          sso:
+            summary: An example of SSO credentials
+            value:
+              jwt: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTA0NjEyMzc5OTEwMy1xMmZnMTVxc2NwOGFwb2g4ZmNmNDkwbzNkMGJrLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTA0NjEyMzc5OTEwMy1xMmZnMTVxc2NwOGFwb2g4ZmNmNDkwbzNkMGJrLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE3MjAwNDc1NTMyNjcyNzc1MzQ2IiwiZW1haWwiOiJ0aGV3YXRjaG1hc3RlcnNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJMcUwzZG5zRDl3LWVsRS11bnlhNy1nIiwiaWF0IjoxNjYyMDM4NDYxLCJleHAiOjE2NjIwNDIwNjF9.ViGjKH7eZdKychJrBVIwHWADYmZUYetRZfgKY4MBgnw
+              type: google
+          
+    required: true
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema: 
+            $ref: "../schema/responses/SSOResponse.yaml"
+          examples:
+            success_2fa:
+              summary: An example with an existing account and 2FA enabled
+              value:
+                success: true
+                acc_exists: true
+                2fa_enabled: true
+                access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzc4ODYyODcyfQ.cu2YllHxsXs00RgMHaOwwFqDtOB7FbR32AtErT_ge18
+            success_not_2fa:
+              summary: An example with an existing account and 2FA disabled
+              value:
+                success: true
+                acc_exists: true
+                2fa_enabled: false
+                user: 
+                  id: bd564bf7-d13f-4fcd-a459-885436401f02
+                  email: admin@admin.org
+                  avatar_id: c1edf4b2765dc314bcbc60c2ec925af5d584a9c6e2424fa4434cb6fad699c82b
+            success_new_account:
+              summary: An example with a new account
+              value:
+                success: true
+                2fa_enabled: false
+                acc_exists: false
+                user: 
+                  id: bd564bf7-d13f-4fcd-a459-885436401f02
+                  email: admin@admin.org
+                  avatar_id: c1edf4b2765dc314bcbc60c2ec925af5d584a9c6e2424fa4434cb6fad699c82b
+    "401":
+      description: Invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/errors/InvalidCredentialError.yaml"
+          examples:
+            invalid_credentials:
+              summary: An example with invalid credentials
+              value:
+                success: false
+                message: "error.invalid_credentials"
+        

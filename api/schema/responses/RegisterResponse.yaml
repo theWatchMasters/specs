@@ -1,0 +1,8 @@
+type: object
+properties:
+  success:
+    type: boolean
+    enum: [true]
+  user:
+    $ref: "../components/User.yaml"
+required: [success, user]

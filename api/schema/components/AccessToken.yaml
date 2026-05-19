@@ -1,0 +1,2 @@
+type: string
+format: jwt # TODO: check if jwt is a valid format

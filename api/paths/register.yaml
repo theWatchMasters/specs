@@ -1,0 +1,51 @@
+post:
+  operationId: register_with_credentials
+  tags:
+    - auth
+  summary: Allows credential pair registration
+  description: |-
+    The `/register` endpoint provides an interface for registration of new users 
+    using a traditional email and password based account creation
+  requestBody:
+    content:
+      application/json:
+        schema: 
+          $ref: "../schema/requests/LoginCredentials.yaml"
+        examples:
+          example:
+            summary: An example of registration
+            value:
+              email: admin@admin.org
+              password: abc123
+          
+    required: true
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema: 
+            $ref: "../schema/responses/RegisterResponse.yaml"
+          examples:
+            success:
+              summary: A successful registration response
+              value:
+                success: true
+                user: 
+                  id: bd564bf7-d13f-4fcd-a459-885436401f02
+                  email: admin@admin.org
+                  avatar_id: c1edf4b2765dc314bcbc60c2ec925af5d584a9c6e2424fa4434cb6fad699c82b
+                  
+    "400":
+      description: Duplicate Credentials
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/errors/DuplicateCredentialError.yaml"
+          examples:
+            duplicate_credentials:
+              summary: An example with duplicate credentials
+              value:
+                success: false
+                message: "error.duplicate_credentials"
+        

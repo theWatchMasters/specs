@@ -1,0 +1,58 @@
+post:
+  operationId: login_with_credentials
+  tags:
+    - auth
+  summary: Allows credential pair login
+  description: |-
+    The `/login` endpoint provides an interface for user logins using
+    an email-password credential pair
+  requestBody:
+    content:
+      application/json:
+        schema: 
+          $ref: "../schema/requests/LoginCredentials.yaml"
+        examples:
+          email-password:
+            summary: An example of credentials with email and password
+            value:
+              email: admin@example.com
+              password: abc123
+          
+    required: true
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema: 
+            $ref: "../schema/responses/LoginResponse.yaml"
+          examples:
+            success_2fa:
+              summary: An example with 2FA enabled
+              value:
+                success: true
+                2fa_enabled: true
+                access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzc4ODYyODcyfQ.cu2YllHxsXs00RgMHaOwwFqDtOB7FbR32AtErT_ge18
+            success_not_2fa:
+              summary: An example with 2FA disabled
+              value:
+                success: true
+                2fa_enabled: false
+                user: 
+                  id: bd564bf7-d13f-4fcd-a459-885436401f02
+                  email: admin@admin.org
+                  avatar_id: c1edf4b2765dc314bcbc60c2ec925af5d584a9c6e2424fa4434cb6fad699c82b
+
+    "401":
+      description: Invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: "../schema/errors/InvalidCredentialError.yaml"
+          examples:
+            invalid_credentials:
+              summary: An example with invalid credentials
+              value:
+                success: false
+                message: "error.invalid_credentials"
+        

@@ -1,0 +1,25 @@
+oneOf:
+  - type: object
+    properties:
+      success:
+        type: boolean
+        enum: [true]
+      2fa_enabled:
+        type: boolean
+        enum: [false]
+      user:
+        $ref: "../components/User.yaml"
+    required: [success, 2fa_enabled, user]
+  - type: object
+    properties:
+      success:
+        type: boolean
+        enum: [true]
+      2fa_enabled:
+        type: boolean
+        enum: [true]
+      access_token:
+        $ref: "../components/AccessToken.yaml"
+    required: [success, 2fa_enabled, access_token]
+discriminator: 
+  propertyName: 2fa_enabled
